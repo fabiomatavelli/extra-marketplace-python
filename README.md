@@ -1,4 +1,9 @@
-extra-marketplace-python
+Extra Marketplace
 ========================
 
-Módulo para acesso a API do Marketplace do Extra
+Módulo para acesso a API do Marketplace do Extra em Python
+
+Dependências
+-----------------
+### python
+- requests
