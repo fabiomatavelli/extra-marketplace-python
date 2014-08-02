@@ -1,9 +1,9 @@
 Extra Marketplace
 ========================
 
-Módulo para acesso a API do Marketplace do Extra em Python
+Módulo para acesso a API do Marketplace do Extra em Python.
 
-Dependências
------------------
-### python
+Para mais informações sobre a API do Marketplace acesse [http://desenvolvedores.extra.com.br](http://desenvolvedores.extra.com.br/).
+
+## Dependências
 - requests
