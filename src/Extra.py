@@ -217,7 +217,7 @@ class Orders(API):
 				"linkNfe":linkNfe,
 				"nfe":nfe,
 				"serieNfe":serieNfe
-			}))
+			}),**kwargs)
 	
 class SellerItems(API):
 	@classmethod
@@ -225,3 +225,90 @@ class SellerItems(API):
 		"""Recupera todos os produtos que estão associados ao lojista, mesmo os que não estão disponíveis para venda.
 		"""
 		return cls.get("/sellerItems",params={"_offset":_offset,"_limit":_limit},**kwargs)
+		
+	@classmethod
+	def SellerItem(cls,skuId,defaultPrice,salePrice,availableQuantity,totalQuantity,skuOrigin=None,installmentId=None,crossDockingTime=None,**kwargs):
+		"""Associa produtos que já estão disponíveis para venda no Marketplace ao Lojista.
+		Através desse serviço, o Lojista informa que também vende um produto que já existe no Marktplace.
+		
+		Args:
+			skuId: SKU ID do produto no Marketplace,
+			defaultPrice: Preço "de" no Marketplace,
+			salePrice: Preço "por". Preço real de venda,
+			availableQuantity: Quantidade disponível para venda
+			totalQuantity: Quantidade disponível em estoque,
+			skuOrigin: SKU ID do produto no lojista
+			installmentId: ID do parcelamento do produto (não está em uso no momento),
+			crossDockingTime: Tempo de fabricação
+		"""
+		return cls.post("/sellerItems",data=json.dumps({
+				"skuOrigin":skuOrigin,
+				"skuId":skuId,
+				"defaultPrice":defaultPrice,
+				"salePrice":salePrice,
+				"availableQuantity":availableQuantity,
+				"installmentId":installmentId,
+				"totalQuantity":totalQuantity,
+				"crossDockingTime":crossDockingTime
+			}),**kwargs)
+			
+	@classmethod
+	def Stock(cls,skuId,availableQuantity,totalQuantity,**kwargs):
+		"""Atualiza a quantidade disponível para venda
+		
+		Args:
+			skuId: SKU ID do produto no Marketplace
+			availableQuantity: Quantidade disponível para venda,
+			totalQuantity: Quantidade disponível em estoque
+		"""
+		return cls.put("/sellerItems/%s/stock" % skuId,data=json.dumps({
+				"availableQuantity":availableQuantity,
+				"totalQuantity":totalQuantity
+			}),**kwargs)
+			
+	@classmethod
+	def Prices(cls,skuId,defaultPrice,salePrice,installmentId=None,**kwargs):
+		"""Atualiza o preço do produto para venda
+		
+		Args:
+			skuId: SKU ID do produto no Marketplace
+			defaultPrice: Preço 'de',
+			salePrice: Preço 'por',
+			installmentId: ID do parcelamento do produto
+		"""
+		return cls.put("/sellerItems/%s/prices" % skuId,data=json.dumps({
+				"defaultPrice":defaultPrice,
+				"salePrice":salePrice,
+				"installmentId":installmentId
+			}),**kwargs)
+	
+	@classmethod
+	def Sku(cls,skuId,**kwargs):
+		"""Recupera a informação de um determinado SKU através do SKU ID do Marketplace
+		
+		Args:
+			skuId: SKU ID do produto no Marketplace
+		"""
+		return cls.get("/sellerItems/%s" % skuId,**kwargs)
+	
+	@classmethod
+	def SkuOrigin(cls,skuOrigin,**kwargs):
+		"""Recupera a informação de um determinado SKU através do SKU ID do Lojista
+		
+		Args:
+			skuOrigin: SKU ID do Lojista
+		"""
+		return cls.get("/sellerItems/skuOrigin/%s" % skuOrigin,**kwargs)
+		
+	@classmethod
+	def Selling(cls,_offset=1,_limit=50,**kwargs):
+		"""Recupera apenas os produtos do Lojista que estão disponíveis para venda.
+		
+		Args:
+			_offset: Indica a posição inicial de consulta
+			_limit: Limita a quantidade de registros trazidos pela consulta
+		"""
+		return cls.get("/sellerItems/status/selling",**kwargs)
+		
+if __name__ == "__main__":
+	pass
