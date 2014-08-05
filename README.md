@@ -48,3 +48,7 @@ ntity': 10, 'categoryList': ['Teste>API'], 'productUdaLists': []}]
 >>> load.Load()
 1234
 ```
+
+## Wiki
+
+Acesse o [wiki](extra-marketplace-python/wiki) para mais informações.
