@@ -52,3 +52,7 @@ ntity': 10, 'categoryList': ['Teste>API'], 'productUdaLists': []}]
 ## Wiki
 
 Acesse o [wiki](https://github.com/fabiomatavelli/extra-marketplace-python/wiki) para mais informações.
+
+## Colabore
+
+Colabore com este projeto. Caso tenha dúvidas, entre em contato comigo pelo <fabiomatavelli@gmail.com>.
