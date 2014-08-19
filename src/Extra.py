@@ -317,12 +317,11 @@ class Loads(API):
 	__products = []
 	
 	@classmethod
-	def AddProduct(cls,skuIdOrigin,sellingTitle,description,brand,defaultPrice,salePrice,categoryList,Weight,Length,Width,Height,availableQuantity,handlingTime,images,videos=[],productUdaLists=[],skuId=None,productIdOrigin=None,EAN=None,installmentId=None):
+	def AddProduct(cls,skuIdOrigin,sellingTitle,description,brand,defaultPrice,salePrice,categoryList,Weight,Length,Width,Height,availableQuantity,handlingTime,images,videos=[],productUdaLists=[],productIdOrigin=None,EAN=None,installmentId=0):
 		"""Adiciona um produto à variável __products para ser utilizada pelo método Load.
 		
 		Args:
 			skuIdOrigin (string): SKU ID do produto do lojista,
-			skuId (string, optional): SKU ID do produto no Marketplace - utilizado para realizar associação de produtos,
 			productIdOrigin (string, optional): ID do produto do lojista para fazer o agrupamento de SKUs,
 			sellingTitle (string): Nome no Marketplace. Ex Televisor de LCD Sony Bravia 40”...,
 			description (string): Descrição do produto. Aceita tags HTML para formatar a apresentação da descrição, no entanto há alguma
@@ -347,9 +346,8 @@ class Loads(API):
 			if product["skuIdOrigin"] == skuIdOrigin:
 				raise Exception("Produto '%s' ja existe na lista de produtos para carga." % (skuIdOrigin,))
 		
-		cls.__products.append({
+		data = {
 			"skuIdOrigin":skuIdOrigin,
-			"skuId":skuId,
 			"productIdOrigin":productIdOrigin,
 			"sellingTitle":sellingTitle,
 			"description":description,
@@ -368,7 +366,15 @@ class Loads(API):
 			"installmentId":installmentId,
 			"videos":videos,
 			"images":images
-			})
+			}
+		
+		if productIdOrigin is None:
+			del data["productIdOrigin"]
+		
+		if EAN is None:
+			del data["EAN"]
+		
+		cls.__products.append(data)
 			
 		return cls.__products
 	
