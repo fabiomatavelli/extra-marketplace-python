@@ -310,7 +310,7 @@ class SellerItems(API):
 			_offset: Indica a posição inicial de consulta
 			_limit: Limita a quantidade de registros trazidos pela consulta
 		"""
-		return cls.get("/sellerItems/status/selling",**kwargs)
+		return cls.get("/sellerItems/status/selling",params={"_offset":_offset,"_limit":_limit},**kwargs)
 
 class Loads(API):
 	# Armazenda os produtos utilizando o AddProduct
